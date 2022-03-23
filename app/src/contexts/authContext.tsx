@@ -9,7 +9,7 @@ export enum AuthStatus {
 }
 
 export interface IAuth {
-  sessionInfo?: { username?: string; email?: string; sub?: string; accessToken?: string; refreshToken?: string }
+  sessionInfo?: { username?: string; email?: string; sub?: string; accessToken?: string; refreshToken?: string; idToken?: string; }
   attrInfo?: any
   authStatus?: AuthStatus
   signInWithEmail?: any
@@ -55,9 +55,11 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
         setSessionInfo({
           accessToken: session.accessToken.jwtToken,
           refreshToken: session.refreshToken.token,
+          idToken: session.idToken.jwtToken
         })
         window.localStorage.setItem('accessToken', `${session.accessToken.jwtToken}`)
         window.localStorage.setItem('refreshToken', `${session.refreshToken.token}`)
+        window.localStorage.setItem('idToken', `${session.idToken.jwtToken}`)
         await setAttribute({ Name: 'website', Value: 'https://github.com/dbroadhurst/aws-cognito-react' })
         const attr: any = await getAttributes()
         setAttrInfo(attr)
